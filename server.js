@@ -1,6 +1,5 @@
 var urlExists = require("url-exists");
-
-var XMLHttpRequest = require('xhr2');
+var XMLHttpRequest = require("xhr2");
 var xhr = new XMLHttpRequest();
 const axios = require("axios");
 const express = require("express");
@@ -50,19 +49,18 @@ app.post("/isUrlValid?", async function (req, res) {
   var request = new XMLHttpRequest();
   request.open("GET", url, true);
   request.onreadystatechange = function () {
-    
     if (request.readyState === 4) {
+      console.log(request.status);
       if (request.status === 200) {
         res.json({
           bool: true,
         });
-        return
+      } else if (request.status === 404 || 0) {
+        res.json({
+          bool: false,
+        });
       }
     }
   };
   request.send();
-  res.json({
-    bool: false,
-  });
-  
 });
