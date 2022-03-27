@@ -48,7 +48,8 @@ app.post("/isUrlValid?", async function (req, res) {
 
   var request = new XMLHttpRequest();
   request.open("GET", url, true);
-  request.onreadystatechange = function () {
+  request.onreadystatechange = async function () {
+    console.log("ReadyState ->", request.readyState);
     if (request.readyState === 4) {
       console.log("Status ->", request.status);
       if (request.status === 200) {
