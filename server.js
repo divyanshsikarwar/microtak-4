@@ -54,6 +54,7 @@ app.post("/isUrlValid?", async function (req, res) {
       console.log("Status ->", request.status);
       if (request.status === 200) {
         res.json({
+          
           bool: true,
         });
       } else if (request.status === 404 || request.status ===0) {
