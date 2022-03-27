@@ -1,0 +1,23 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "install": "^0.13.0",
+    "node-fetch": "^3.2.3",
+    "npm": "^8.5.5",
+    "url-exist": "^3.0.0",
+    "url-exists": "^1.0.3",
+    "xhr2": "^0.2.1"
+  }
+}
