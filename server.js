@@ -1,4 +1,7 @@
 var urlExists = require("url-exists");
+
+var XMLHttpRequest = require('xhr2');
+var xhr = new XMLHttpRequest();
 const axios = require("axios");
 const express = require("express");
 const PORT = process.env.PORT || 5000;
@@ -44,9 +47,17 @@ app.post("/isUrlValid?", async function (req, res) {
 
   console.log(url);
 
-  urlExists("www.google.com", function (err, exists) {
-    console.log(exists, "--------");
-  });
+  var request = new XMLHttpRequest();
+  request.open("GET", url, true);
+  request.onreadystatechange = function () {
+    console.log(request)
+    if (request.readyState === 4) {
+      if (request.status === 404) {
+        console.log("NOPE")
+      }
+    }
+  };
+  request.send();
 
   res.json({
     bool: true,
