@@ -1,4 +1,3 @@
-var urlExists = require("url-exists");
 var XMLHttpRequest = require("xhr2");
 var xhr = new XMLHttpRequest();
 const axios = require("axios");
@@ -21,7 +20,8 @@ app.use(
     methods: ["GET", "POST"],
   })
 );
-app.use(timeout(50000));
+
+
 function validURL(str) {
   var pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
