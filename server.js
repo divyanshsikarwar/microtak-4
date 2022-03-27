@@ -1,11 +1,10 @@
 var XMLHttpRequest = require("xhr2");
 var xhr = new XMLHttpRequest();
-const axios = require("axios");
+const isValidDomainExtension = require("is-valid-domain-extension");
 const express = require("express");
 const PORT = process.env.PORT || 5000;
 const cors = require("cors");
 const app = express();
-
 var server = require("http").createServer(app);
 server.listen(PORT, function () {
   var host = server.address().address;
@@ -37,8 +36,9 @@ function validURL(str) {
 
 app.post("/isUrlValid?", async function (req, res) {
   var url = req.body.url.trim();
-
-  if (validURL(url) == false) {
+  var isExtensionValid = await isValidDomainExtension(url);
+  
+  if (validURL(url) == false ||  isExtensionValid == false) {
     res.json({
       bool: false,
     });
@@ -50,7 +50,6 @@ app.post("/isUrlValid?", async function (req, res) {
   var request = new XMLHttpRequest();
   request.open("GET", url, true);
   request.onreadystatechange = async function () {
-    console.log("ReadyState ->", request.readyState);
     if (request.readyState === 4) {
       console.log("Status ->", request.status);
       if (request.status === 200) {
@@ -64,5 +63,13 @@ app.post("/isUrlValid?", async function (req, res) {
       }
     }
   };
+  try{
   request.send();
+  }
+  catch {
+    res.json({
+      somethingWentWrong: true,
+      bool: false,
+    });
+  }
 });

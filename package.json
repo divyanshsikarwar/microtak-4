@@ -14,6 +14,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "install": "^0.13.0",
+    "is-valid-domain-extension": "^1.1.1",
     "npm": "^8.5.5",
     "xhr2": "^0.2.1"
   }
