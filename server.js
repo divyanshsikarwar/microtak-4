@@ -35,7 +35,7 @@ function validURL(str) {
 }
 
 app.post("/isUrlValid?", async function (req, res) {
-  var url = req.body.url.trim();
+  var url = "https://"+ req.body.url.trim();
   var isExtensionValid = await isValidDomainExtension(url);
   
   if (validURL(url) == false ||  isExtensionValid == false) {
@@ -68,6 +68,7 @@ app.post("/isUrlValid?", async function (req, res) {
   request.send();
   }
   catch {
+    console.log("dasfas")
     res.json({
       somethingWentWrong: true,
       bool: false,
