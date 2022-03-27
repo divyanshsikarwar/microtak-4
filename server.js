@@ -61,6 +61,8 @@ app.post("/isUrlValid?", async function (req, res) {
     }
   };
   request.send();
-
+  res.json({
+    bool: false,
+  });
   
 });
