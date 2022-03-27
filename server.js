@@ -20,7 +20,6 @@ app.use(
   })
 );
 
-
 function validURL(str) {
   var pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
@@ -34,22 +33,47 @@ function validURL(str) {
   return !!pattern.test(str);
 }
 
-app.post("/isUrlValid?", async function (req, res) {
-  var url =  req.body.url.trim();
-  if(url.includes("https://")==false){
-    url = "https://"+url;
+function isUrlSeachQuery(url) {
+  let searchURLS = [
+    "search.yahoo.com/search",
+    "bing.com/search?q",
+    "google.com/search?q",
+    "wordpress.org/openverse/search/?q",
+    "yandex.com/search/?",
+    "duckduckgo.com/?q",
+    "qwant.com/?q",
+    "startpage.com/do/search?q",
+    "wiki.com/results",
+    "search.brave.com/search?q",
+  ];
+  for (let i = 0; i < searchURLS.length; i++) {
+    if (url.includes(searchURLS[i])) {
+      return true;
+    }
   }
-  
+  return false;
+}
+
+app.post("/isUrlValid?", async function (req, res) {
+  var url = req.body.url.trim();
+  if (url.includes("https://") == false) {
+    url = "https://" + url;
+  }
+
   var isExtensionValid = await isValidDomainExtension(url);
-  
-  if (validURL(url) == false ||  isExtensionValid == false) {
+
+  if (
+    validURL(url) == false ||
+    isExtensionValid == false ||
+    isUrlSeachQuery(url)
+  ) {
     res.json({
       bool: false,
     });
     return;
   }
 
-  console.log("Requested Url ->",url);
+  console.log("Requested Url ->", url);
 
   var request = new XMLHttpRequest();
   request.open("GET", url, true);
@@ -58,21 +82,19 @@ app.post("/isUrlValid?", async function (req, res) {
       console.log("Status ->", request.status);
       if (request.status === 200) {
         res.json({
-          
           bool: true,
         });
-      } else if (request.status === 404 || request.status ===0) {
+      } else if (["404", "403", "0", "999"].includes(request.status)) {
         res.json({
           bool: false,
         });
       }
     }
   };
-  try{
-  request.send();
-  }
-  catch {
-    console.log("dasfas")
+  try {
+    request.send();
+  } catch {
+    
     res.json({
       somethingWentWrong: true,
       bool: false,
