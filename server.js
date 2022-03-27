@@ -35,7 +35,11 @@ function validURL(str) {
 }
 
 app.post("/isUrlValid?", async function (req, res) {
-  var url = "https://"+ req.body.url.trim();
+  var url =  req.body.url.trim();
+  if(url.includes("https://")==false){
+    url = "https://"+url;
+  }
+  
   var isExtensionValid = await isValidDomainExtension(url);
   
   if (validURL(url) == false ||  isExtensionValid == false) {
