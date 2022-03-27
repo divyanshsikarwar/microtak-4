@@ -21,6 +21,7 @@ app.use(
     methods: ["GET", "POST"],
   })
 );
+app.use(timeout(50000));
 function validURL(str) {
   var pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
