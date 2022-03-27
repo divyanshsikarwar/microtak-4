@@ -44,18 +44,18 @@ app.post("/isUrlValid?", async function (req, res) {
     return;
   }
 
-  console.log(url);
+  console.log("Requested Url ->",url);
 
   var request = new XMLHttpRequest();
   request.open("GET", url, true);
   request.onreadystatechange = function () {
     if (request.readyState === 4) {
-      console.log(request.status);
+      console.log("Status ->", request.status);
       if (request.status === 200) {
         res.json({
           bool: true,
         });
-      } else if (request.status === 404 || 0) {
+      } else if (request.status === 404 || request.status ===0) {
         res.json({
           bool: false,
         });
